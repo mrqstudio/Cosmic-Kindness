@@ -18,6 +18,7 @@ public class ClockDisplay : MonoBehaviour
 
     private PlayerController player;
 
+
     void Start()
     {
         player = GameObject.Find("Player").GetComponent<PlayerController>();

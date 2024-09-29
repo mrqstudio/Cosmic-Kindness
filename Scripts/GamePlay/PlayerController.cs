@@ -36,9 +36,14 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI DeedsCount;
     private int deeds = 0;
 
+    public AudioSource CoinAudio;
+
+    private TimeDead TimeDeadScipt;
+
     // Start is called before the first frame update
     void Start()
     {
+        TimeDeadScipt = GameObject.Find("DeadScriptObject").GetComponent<TimeDead>();
         audioSource = GetComponent<AudioSource>();
         playerRb = GetComponent<Rigidbody>();
         playerRb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -115,6 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         if (countT > 0 || countS > 0)
         {
+            CoinAudio.Play();
             deeds += countT*100 + countS*200;
         }
         countT = 0;
@@ -124,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleNamazDoneCollision()
     {
+        TimeDeadScipt.DeadCount += 60;
         namazDone = true;
         StartCoroutine(ShowMessage(NamazDoneMessage, 5, () => MosqueAudio.SetActive(false)));
     }
@@ -132,6 +139,7 @@ public class PlayerController : MonoBehaviour
     {
         if (countT < 5)
         {
+            TimeDeadScipt.DeadCount += 60;
             StartCoroutine(ShowMessage(ThanksMSG, 5));
             countT++;
             Destroy(collision.gameObject);
@@ -144,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
     void HandleStoneCollision(Collision collision)
     {
+        TimeDeadScipt.DeadCount += 60;
         StartCoroutine(ShowMessage(ThanksMSG, 5));
         countS++;
         Destroy(collision.gameObject);

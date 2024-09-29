@@ -16,9 +16,14 @@ public class GameManager : MonoBehaviour
     public GameObject BikeCamera;
     public GameObject NoBikeWorkOFF;
     public GameObject PlayerCamera;
+
+
+    public GameObject StartControl;
     // Start is called before the first frame update
     void Start()
     {
+        StartControl.SetActive(false);
+
         BackPackMenu.SetActive(false);
         player.SetActive(true);    
         Bike.SetActive(false);
@@ -26,8 +31,15 @@ public class GameManager : MonoBehaviour
         BikeWorkOFF.SetActive(false);
         BikeCamera.SetActive(false);
         PlayerCamera.SetActive(true);
+        StartCoroutine(StartController());
     }
 
+    IEnumerator StartController()
+    {
+        StartControl.SetActive(true);
+        yield return new WaitForSeconds(3);
+        StartControl.SetActive(false);
+    }
     // Update is called once per frame
     void Update()
     {
